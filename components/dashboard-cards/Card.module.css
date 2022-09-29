@@ -1,0 +1,14 @@
+.cardPaper {
+  width: 32% !important;
+}
+
+@media screen and (max-width: 568px) {
+  .cardContainer {
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+  }
+  .cardPaper {
+    width: 100% !important;
+    margin-bottom: 0.3em;
+  }
+}

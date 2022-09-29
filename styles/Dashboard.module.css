@@ -1,0 +1,22 @@
+.dashboardContainer {
+  max-width: 100% !important;
+  height: calc(100% - 60px) !important;
+  width: 100% !important;
+  padding: 1rem;
+}
+.dashboarGrid {
+  height: 100% !important;
+  justify-content: space-between;
+}
+.dashboardLeftGrid {
+  padding-right: 10px;
+  height: 100% !important;
+}
+.dashboardLeftGridPaper {
+  /* height: calc(100% ) */
+  height: calc(100% - 72px - 10px) !important;
+}
+.dashboardRightGridPaper {
+  height: 100% !important;
+  padding: 1em;
+}

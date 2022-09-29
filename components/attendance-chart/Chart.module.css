@@ -1,0 +1,29 @@
+.piechartContainer {
+  height: 50% !important;
+  position: relative;
+}
+.piechartText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.barchartContainer {
+  height: 50% !important;
+}
+.legendContainer {
+  display: flex;
+  flex-direction: column;
+}
+.legend {
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2em;
+}
+.legend > span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-right: 0.4em;
+}
