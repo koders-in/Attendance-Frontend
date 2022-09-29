@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+
 const koders = axios.create({
   baseURL: "https://kore.koders.in",
 });
@@ -33,8 +34,8 @@ export default async function handler(req, res) {
           issues: myIssues,
           spentTime: { logtime, requiredLogTime: 40 },
         };
-        console.log(obj);
 
+        res.setHeader("isSuccess", true);
         res.status(200).json({ msg: "Redmine user", result: obj });
       } else {
         res

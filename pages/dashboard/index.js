@@ -6,7 +6,7 @@ import {
   Paper,
   ThemeProvider,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Header,
   DashboardTable,
@@ -19,7 +19,7 @@ import classes from "../../styles/Dashboard.module.css";
 import { useAttendance } from "../../hooks/useAttendance";
 import { useToatalAttendanceCount } from "../../hooks/useTotalCount";
 import { useStore } from "../../redux/Provider";
-import Router from "next/router";
+
 function index() {
   useToatalAttendanceCount();
   useAttendance();
@@ -30,6 +30,12 @@ function index() {
       user,
     },
   } = useStore();
+
+  useEffect(() => {
+    if (Object.keys(user).length === 0 || user === null || user === undefined) {
+      return Router.push("/");
+    }
+  }, []);
 
   const theme = React.useMemo(
     () =>
@@ -43,10 +49,6 @@ function index() {
       }),
     [mode]
   );
-
-  // if (Object.keys(user).length === 0 || user === null || user === undefined) {
-  //   return Router.push("/");
-  // }
 
   return (
     <div className="app">
@@ -88,10 +90,3 @@ function index() {
 }
 
 export default index;
-
-export async function getServerSideProps(context) {
-  console.log(context.req, context.res);
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
