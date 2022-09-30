@@ -1,5 +1,5 @@
 ## Koders Attendance Frontend
 
-The entire UI is created by NextJS
+The entire UI is created by using  NextJS
 
 
