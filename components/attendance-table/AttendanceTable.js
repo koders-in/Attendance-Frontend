@@ -3,25 +3,20 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
 } from "@mui/material";
 import React from "react";
-//   import { useStyles } from "./styles";
-import { useStore } from "../../redux/Provider";
+import classes from "./Table.module.css";
 import DataLoadingSpinner from "../spinner/Spinner";
 import AttendanceTableRow from "./AttendanceTableRow";
-import classes from "./Table.module.css";
-function AttendanceTable() {
-  // const classes = useStyles();
+import { useDispatch, useSelector } from "react-redux";
 
+function AttendanceTable() {
+  const dispatch = useDispatch();
   const {
-    state: {
-      displayTable,
-      table: { totalRows, page: prevPage },
-    },
-    dispatch,
-  } = useStore();
+    displayTable,
+    table: { totalRows, page: prevPage },
+  } = useSelector((state) => state);
 
   const handleChangePage = (_, page) => {
     const currentPage = Math.ceil(page);
@@ -36,11 +31,9 @@ function AttendanceTable() {
     <React.Fragment>
       <TableContainer className={classes.tableContainer}>
         <Table aria-labelledby="tableTitle" size="medium" stickyHeader>
-          {/* <TableHead> */}
           {headCells.map((headCell) => (
             <TableCell key={headCell.id}>{headCell.label}</TableCell>
           ))}
-          {/* </TableHead> */}
           <TableBody>
             {displayTable?.map((row, i) => (
               <AttendanceTableRow

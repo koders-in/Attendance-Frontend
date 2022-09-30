@@ -6,16 +6,14 @@ import {
   ListItemAvatar,
 } from "@mui/material";
 import React from "react";
-import { useStore } from "../../redux/Provider";
 import classes from "./Card.module.css";
+import { useSelector } from "react-redux";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
-import AssignmentTurnedInIcon from "@mui/icons-material/LockClock";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import PunchClockIcon from "@mui/icons-material/PunchClock";
 
 function DashboardCards() {
-  const {
-    state: { user },
-  } = useStore();
+  const { user } = useSelector((state) => state);
 
   return (
     <Stack
@@ -26,7 +24,7 @@ function DashboardCards() {
       <Paper className={classes.cardPaper}>
         <ListItem>
           <ListItemAvatar>
-            <WorkOutlineIcon fontSize="large" />
+            <AccountBoxIcon fontSize="large" />
           </ListItemAvatar>
           <ListItemText
             primary={user?.profile?.firstname || "User name"}
@@ -50,7 +48,7 @@ function DashboardCards() {
       <Paper className={classes.cardPaper}>
         <ListItem>
           <ListItemAvatar>
-            <AssignmentTurnedInIcon fontSize="large" />
+            <PunchClockIcon fontSize="large" />
           </ListItemAvatar>
           <ListItemText
             primary={`${user?.spentTime?.logtime || 0}/${

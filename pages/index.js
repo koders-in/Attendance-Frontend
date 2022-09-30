@@ -1,17 +1,27 @@
 import React, { useState } from "react";
+import {
+  Box,
+  Grid,
+  Paper,
+  Alert,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 import API from "../api";
+import Head from "next/head";
 import Router from "next/router";
-import { useStore } from "../redux/Provider";
+import { useDispatch } from "react-redux";
 import classes from "../styles/Home.module.css";
 import { AppSpacer, DataLoadingSpinner } from "../components";
-import { Grid, Paper, Box, TextField, Button, Typography } from "@mui/material";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const [isAlert, setAlert] = useState({ show: false, msg: "" });
   const [data, setData] = useState({
     username: "",
     password: "",
   });
-  const { dispatch } = useStore();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,11 +29,14 @@ export default function Login() {
     if (username.length > 0 && password.length > 0) {
       dispatch({ type: "SET_LOADER" });
       const response = await API.logInUser(username, password);
-      console.log(response);
       if (response !== null) {
         dispatch({ type: "SET_USER", payload: response });
         Router.push("/dashboard");
-      }
+      } else
+        setAlert({
+          msg: "Something went wrong — Please try again!",
+          show: true,
+        });
       dispatch({ type: "SET_LOADER" });
     }
   };
@@ -42,6 +55,10 @@ export default function Login() {
       alignItems="center"
       container
     >
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>Koders Attendance | Login</title>
+      </Head>
       <Grid className={classes.inner} lg={6} item>
         <Paper className={classes.loginPaper} elevation={6}>
           <Box
@@ -50,8 +67,12 @@ export default function Login() {
             autoComplete="off"
             className={classes.loginPaper}
           >
-            <img alt="" src="/koders.webp" className={classes.logostyle} />
-            <AppSpacer height={30} />
+            <img
+              alt="koders"
+              src="/koders.webp"
+              className={classes.logostyle}
+            />
+            <AppSpacer height={10} />
             <Typography
               variant="h5"
               component="h2"
@@ -85,6 +106,8 @@ export default function Login() {
             >
               Log In
             </Button>
+            <AppSpacer height={10} />
+            {isAlert.show && <Alert severity="warning">{isAlert.msg}</Alert>}
           </Box>
         </Paper>
       </Grid>

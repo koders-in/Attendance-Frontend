@@ -5,17 +5,16 @@ import GQL from "./gqlQuery";
 const logInUser = async (username, password) => {
   try {
     const { status, data } = await axios.post("/api/", { username, password });
-    console.log(data.result);
     return status === 200 ? data.result : null;
   } catch (error) {
     console.log("Error occur while logging user", error.message);
   }
 };
 
-const getTotalAttendanceCount = async () => {
+const getTotalAttendanceCount = async (userID = 17) => {
   try {
     const { status, data } = await gqlClient.post("/", {
-      query: GQL.attendanceCountQuery(),
+      query: GQL.attendanceCountQuery(userID),
       variables: {},
     });
     return status === 200
@@ -26,10 +25,10 @@ const getTotalAttendanceCount = async () => {
   }
 };
 
-const geMytAttendance = async (offset = 0) => {
+const geMytAttendance = async (offset = 0, userID = 17) => {
   try {
     const { status, data } = await gqlClient.post("/", {
-      query: GQL.attendanceQuery(17, offset),
+      query: GQL.attendanceQuery(userID, offset),
       variables: {},
     });
     return status === 200 ? data?.data?.attendance : null;

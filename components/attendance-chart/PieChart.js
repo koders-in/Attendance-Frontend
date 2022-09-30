@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import utils from "../../utils";
 import classes from "./Chart.module.css";
+import { useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
 import { PieChart } from "react-minimal-pie-chart";
-import { useStore } from "../../redux/Provider";
 
 function AttendancePieChart() {
   const [data, setData] = useState([]);
-
-  const {
-    state: { attendance },
-  } = useStore();
+  const { attendance } = useSelector((state) => state);
 
   useEffect(() => {
     let arr = [];

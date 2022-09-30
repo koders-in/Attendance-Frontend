@@ -1,15 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { IconButton, Box } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { useStore } from "../../redux/Provider";
 
 export default function Toggler() {
   const {
-    state: {
-      app: { mode },
-    },
-  } = useStore();
+    app: { mode },
+  } = useSelector((state) => state);
+
   return (
     <Box
       sx={{
@@ -22,7 +21,10 @@ export default function Toggler() {
         p: 1,
       }}
     >
-      <IconButton sx={{ ml: 1 }}>
+      <IconButton
+        title={`${mode === "dark" ? "Light" : "Dark"} mode`}
+        sx={{ ml: 1 }}
+      >
         {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Box>

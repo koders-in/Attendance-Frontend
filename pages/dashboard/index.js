@@ -1,41 +1,35 @@
+import React from "react";
 import {
+  Grid,
+  Paper,
   Container,
   createTheme,
   CssBaseline,
-  Grid,
-  Paper,
   ThemeProvider,
 } from "@mui/material";
-import React, { useEffect } from "react";
 import {
   Header,
+  AppSpacer,
   DashboardTable,
   DashboardChart,
-  DataLoadingSpinner,
   DashboardCards,
-  AppSpacer,
+  DataLoadingSpinner,
+  UnAuthorizedUserModal,
 } from "../../components";
+import { useSelector } from "react-redux";
+import Head from "next/head";
 import classes from "../../styles/Dashboard.module.css";
 import { useAttendance } from "../../hooks/useAttendance";
 import { useToatalAttendanceCount } from "../../hooks/useTotalCount";
-import { useStore } from "../../redux/Provider";
 
 function index() {
   useToatalAttendanceCount();
   useAttendance();
 
   const {
-    state: {
-      app: { mode },
-      user,
-    },
-  } = useStore();
-
-  useEffect(() => {
-    if (Object.keys(user).length === 0 || user === null || user === undefined) {
-      return Router.push("/");
-    }
-  }, []);
+    app: { mode },
+    isAuthenticate,
+  } = useSelector((state) => state);
 
   const theme = React.useMemo(
     () =>
@@ -50,8 +44,14 @@ function index() {
     [mode]
   );
 
-  return (
+  return !Boolean(isAuthenticate) ? (
+    <UnAuthorizedUserModal />
+  ) : (
     <div className="app">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>Attendance Dashboard</title>
+      </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />

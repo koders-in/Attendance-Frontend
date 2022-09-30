@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import crypto from "crypto";
 
 const koders = axios.create({
   baseURL: "https://kore.koders.in",
@@ -12,10 +13,12 @@ export default async function handler(req, res) {
 
   try {
     const { body } = req;
+    if (req.method !== "POST")
+      return res.status(400).json({ msg: ErrorMessage.INVALID, result: null });
     if (body["username"] !== undefined && body["password"] !== undefined) {
       const { username, password } = body;
       const authKey = Buffer.from(`${username}:${password}`).toString("base64");
-      const { status, data } = await koders.get("/users/current.json", {
+      const { status, data } = await koders.get("/my/account.json", {
         headers: {
           authorization: "Basic " + authKey,
         },
@@ -52,6 +55,7 @@ export default async function handler(req, res) {
 const ErrorMessage = {
   AUTHORIZATION: "Authorization key is missing in header",
   SOMETHINGWRONG: "Something went wrong",
+  INVALID: "Invalid request",
 };
 
 const findValueFromArray = (arr = [], key = "") => {
@@ -63,6 +67,12 @@ const findValueFromArray = (arr = [], key = "") => {
   return "Invalid Key";
 };
 
+const createHashFromEmail = (email) =>
+  crypto
+    .createHash("md5")
+    .update(`${email}`.trim().toLowerCase())
+    .digest("hex");
+
 const getUser = (user) => {
   const userObj = {};
   userObj["firstname"] = user.firstname;
@@ -70,7 +80,9 @@ const getUser = (user) => {
   userObj["position"] = findValueFromArray(user.custom_fields, "Position");
   userObj["lastname"] = user.lastname;
   userObj["login"] = user.login;
-  userObj["last_login_on"] = user.last_login_on;
+  userObj["avatar"] = `https://www.gravatar.com/avatar/${createHashFromEmail(
+    user.mail
+  )}?rating=PG&size=50&default=identicon`;
   return userObj;
 };
 
@@ -135,3 +147,6 @@ const getSpentTime = async (apiKey, preDate, preDay) => {
     console.log(error);
   }
 };
+
+const f = `03c15fbe0e5fc494cb2a22f5e9b39d54
+`;

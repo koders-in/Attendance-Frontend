@@ -11,7 +11,7 @@ const attendanceQuery = (userID, offset) => `
     `;
 
 const attendanceCountQuery = (userID) => `query  MyQuery  @cached{
-  attendance_aggregate(where:{ user_id : {_eq : 17 } })  {
+  attendance_aggregate(where:{ user_id : {_eq : ${userID} } })  {
                aggregate {
                        count
                       }

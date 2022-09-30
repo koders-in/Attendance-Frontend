@@ -12,7 +12,7 @@ import {
 import utils from "../../utils";
 import classes from "./Chart.module.css";
 import { Bar } from "react-chartjs-2";
-import { useStore } from "../../redux/Provider";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
   CategoryScale,
@@ -25,11 +25,9 @@ ChartJS.register(
 
 export default function BarChart() {
   const {
-    state: {
-      attendance,
-      app: { mode },
-    },
-  } = useStore();
+    attendance,
+    app: { mode },
+  } = useSelector((state) => state);
 
   // getting last 7 days data
   const xAxis = attendance?.slice(0, 7).map((d) => {

@@ -1,19 +1,30 @@
 import React from "react";
-import { Box, AppBar, Toolbar, IconButton, Typography } from "@mui/material";
-import Spacer from "../spacer/Spacer";
+import {
+  Box,
+  AppBar,
+  Avatar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import Router from "next/router";
 import Toggler from "../theme-toggler/Toggler";
-import { useStore } from "../../redux/Provider";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Appbar() {
   const {
-    dispatch,
-    state: {
-      user: { userAvatar },
-    },
-  } = useStore();
+    user: { profile },
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const handleTheme = () => {
     dispatch({ type: "SET_MODE" });
+  };
+
+  const handleLogout = () => {
+    dispatch({ type: "SET_USER", payload: {} });
+    Router.replace("/");
   };
 
   return (
@@ -34,17 +45,17 @@ export default function Appbar() {
           </Typography>
         </Box>
         <Box sx={{ flexGrow: 1 }} />
-        <IconButton edge="end" aria-haspopup="true" color="inherit">
-          {/* {userAvatar.length === 0 ? (
-            <AccountCircle fontSize="large" />
-          ) : (
-            <Avatar src={userAvatar} />
-          )} */}
-        </IconButton>
-        <Spacer width={15} />
+        {profile?.avatar?.length === 0 ? (
+          <AccountCircle fontSize="large" />
+        ) : (
+          <Avatar src={profile?.avatar} />
+        )}
         <Box onClick={handleTheme}>
           <Toggler />
         </Box>
+        <IconButton onClick={handleLogout} title="Log Out">
+          <LogoutIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );

@@ -12,6 +12,7 @@ export const initialState = {
   },
   displayTable: [],
   isLoading: false,
+  isAuthenticate: false,
 };
 export default function attendanceReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,7 +26,7 @@ export default function attendanceReducer(state = initialState, action) {
 
     case "SET_USER": {
       const { payload } = action;
-      return { ...state, user: payload };
+      return { ...state, user: payload, isAuthenticate: true };
     }
     case "SET_TOTAL_ROWS": {
       const { table } = state;
@@ -97,6 +98,17 @@ export default function attendanceReducer(state = initialState, action) {
 
     case "SET_LOADER": {
       return { ...state, isLoading: !state.isLoading };
+    }
+    case "persist/REHYDRATE": {
+      const { payload } = action;
+      if (payload !== undefined) {
+        return { ...state, ...payload };
+      } else return { ...state };
+    }
+
+    case "SET_AUTHENTICATE": {
+      const { payload } = action;
+      return { ...state, isAuthenticate: payload };
     }
     default:
       return { ...state };

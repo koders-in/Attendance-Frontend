@@ -1,11 +1,10 @@
 import React from "react";
-import { useStore } from "../../redux/Provider";
+import { useSelector } from "react-redux";
 import { Backdrop, CircularProgress } from "@mui/material";
 
 function Spinner() {
-  const {
-    state: { isLoading },
-  } = useStore();
+  const { isLoading } = useSelector((state) => state);
+
   return (
     <Backdrop
       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
