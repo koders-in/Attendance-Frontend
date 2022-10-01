@@ -37,7 +37,7 @@ function index() {
         palette: {
           mode,
           primary: {
-            main: "#00ab9c",
+            main: "#00a99d",
           },
         },
       }),
@@ -66,7 +66,7 @@ function index() {
             >
               <DashboardCards />
               <AppSpacer height={10} />
-              <Paper elevation={4} className={classes.dashboardLeftGridPaper}>
+              <Paper elevation={10} className={classes.dashboardLeftGridPaper}>
                 <DashboardTable />
               </Paper>
             </Grid>
@@ -77,7 +77,7 @@ function index() {
               sm={12}
               lg={4}
             >
-              <Paper className={classes.dashboardRightGridPaper} elevation={4}>
+              <Paper className={classes.dashboardRightGridPaper} elevation={10}>
                 <DashboardChart />
               </Paper>
             </Grid>

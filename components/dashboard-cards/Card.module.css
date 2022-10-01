@@ -1,5 +1,6 @@
 .cardPaper {
   width: 32% !important;
+  background: rgb(15,14,14) !important;
 }
 
 @media screen and (max-width: 568px) {

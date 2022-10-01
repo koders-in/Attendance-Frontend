@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import Router from "next/router";
-import Toggler from "../theme-toggler/Toggler";
+import AppSpacer from "../spacer/Spacer";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,10 +18,6 @@ export default function Appbar() {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const handleTheme = () => {
-    dispatch({ type: "SET_MODE" });
-  };
-
   const handleLogout = () => {
     dispatch({ type: "SET_USER", payload: {} });
     Router.replace("/");
@@ -29,7 +25,7 @@ export default function Appbar() {
 
   return (
     <AppBar
-      elevation={4}
+      elevation={10}
       style={{ width: "100%", height: "60px" }}
       position="sticky"
     >
@@ -50,11 +46,10 @@ export default function Appbar() {
         ) : (
           <Avatar src={profile?.avatar} />
         )}
-        <Box onClick={handleTheme}>
-          <Toggler />
-        </Box>
+        <AppSpacer width={20} />
+
         <IconButton onClick={handleLogout} title="Log Out">
-          <LogoutIcon />
+          <LogoutIcon className="white-color" />
         </IconButton>
       </Toolbar>
     </AppBar>

@@ -3,6 +3,7 @@
   height: calc(100% - 60px) !important;
   width: 100% !important;
   padding: 1rem;
+  background: rgb(33,40,52) !important;
 }
 .dashboarGrid {
   height: 100% !important;
@@ -15,8 +16,13 @@
 .dashboardLeftGridPaper {
   /* height: calc(100% ) */
   height: calc(100% - 72px - 10px) !important;
+  background: rgb(15,14,14) !important;
+
 }
 .dashboardRightGridPaper {
   height: 100% !important;
   padding: 1em;
+  background: rgb(15,14,14) !important;
 }
+
+

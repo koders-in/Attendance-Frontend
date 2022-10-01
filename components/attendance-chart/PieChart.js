@@ -22,7 +22,9 @@ function AttendancePieChart() {
   return (
     <Box className={classes.piechartContainer}>
       <Box className={classes.piechartText}>
-        <Typography paragraph>Attendence status</Typography>
+        <Typography fontSize="1rem" paragraph>
+          Attendence status
+        </Typography>
         <div className={classes.legendContainer}>
           <div className={classes.legend}>
             <span style={{ background: "#3bff6c" }} />
@@ -59,7 +61,7 @@ function AttendancePieChart() {
         lineWidth={10}
         startAngle={-90}
         paddingAngle={1}
-        radius={43}
+        radius={40}
       />
     </Box>
   );

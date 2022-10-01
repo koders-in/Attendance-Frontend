@@ -12,7 +12,7 @@ const convertToISOtime = (date, time) => {
   } else return "Invalid Time";
 };
 
-const getTimeDifference = (date, time1, time2) => {
+const getTimeDifference = (date, time1, time2, precision = 2) => {
   if (date === null && time1 == null && time2 === null) return "Invalid Date";
   if (typeof date === "string" && time1 !== null && time2 !== null) {
     date = date.replaceAll("-", "/");
@@ -22,7 +22,8 @@ const getTimeDifference = (date, time1, time2) => {
     const t1 = moment(`${date} ${time1}`, dateFormat);
     const t2 = moment(`${date} ${time2}`, dateFormat);
     const duration = t2.diff(t1);
-    return Number(moment.duration(duration).asHours().toFixed(2));
+
+    return Number(moment.duration(duration).asHours().toFixed(precision));
   }
   // if time1 is null then user didn't puch his morning card so marking absent of user
   // for that day

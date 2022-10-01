@@ -7,6 +7,8 @@ import {
   Button,
   TextField,
   Typography,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import API from "../api";
 import Head from "next/head";
@@ -14,9 +16,20 @@ import Router from "next/router";
 import { useDispatch } from "react-redux";
 import classes from "../styles/Home.module.css";
 import { AppSpacer, DataLoadingSpinner } from "../components";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
+
+const inputSX = {
+  "& .MuiOutlinedInput-root.Mui-focused": {
+    "& > fieldset": {
+      borderColor: "#00a99d",
+    },
+  },
+};
 
 export default function Login() {
   const dispatch = useDispatch();
+  const [isHide, setHide] = useState(false);
   const [isAlert, setAlert] = useState({ show: false, msg: "" });
   const [data, setData] = useState({
     username: "",
@@ -29,7 +42,7 @@ export default function Login() {
     if (username.length > 0 && password.length > 0) {
       dispatch({ type: "SET_LOADER" });
       const response = await API.logInUser(username, password);
-      if (response !== null) {
+      if (response !== undefined && response !== null) {
         dispatch({ type: "SET_USER", payload: response });
         Router.push("/dashboard");
       } else
@@ -48,6 +61,9 @@ export default function Login() {
     });
   };
 
+  const handleSecretIcon = () => {
+    setHide((pre) => !pre);
+  };
   return (
     <Grid
       className={classes.root}
@@ -60,7 +76,7 @@ export default function Login() {
         <title>Koders Attendance | Login</title>
       </Head>
       <Grid className={classes.inner} lg={6} item>
-        <Paper className={classes.loginPaper} elevation={6}>
+        <Paper className={classes.loginPaper} elevation={10}>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -78,10 +94,11 @@ export default function Login() {
               component="h2"
               style={{ color: "#00ab9c" }}
             >
-              Attendence System
+              Attendance System
             </Typography>
             <AppSpacer height={10} />
             <TextField
+              sx={inputSX}
               required
               label="Username"
               name="username"
@@ -91,11 +108,25 @@ export default function Login() {
             <AppSpacer height={10} />
             <TextField
               className={classes.textfield}
-              type="password"
+              type={!isHide ? "password" : "text"}
               required
+              sx={inputSX}
               label="Password"
               onChange={handleChange}
               name="password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleSecretIcon}>
+                      {!isHide ? (
+                        <VisibilityIcon className="white-color" />
+                      ) : (
+                        <VisibilityOffIcon className="white-color" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <AppSpacer height={20} />
             <Button

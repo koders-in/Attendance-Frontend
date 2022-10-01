@@ -30,7 +30,12 @@ function AttendanceTable() {
   return (
     <React.Fragment>
       <TableContainer className={classes.tableContainer}>
-        <Table aria-labelledby="tableTitle" size="medium" stickyHeader>
+        <Table
+          style={{ borderColor: "blue" }}
+          aria-labelledby="tableTitle"
+          size="medium"
+          stickyHeader
+        >
           {headCells.map((headCell) => (
             <TableCell key={headCell.id}>{headCell.label}</TableCell>
           ))}
@@ -84,6 +89,6 @@ const headCells = [
     id: "comment",
     numeric: false,
     disablePadding: false,
-    label: "Remarks",
+    label: "Work time",
   },
 ];

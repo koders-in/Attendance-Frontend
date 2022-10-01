@@ -70,7 +70,7 @@ export default function BarChart() {
             title: {
               display: true,
               text: "Last Seven Day's Statistics",
-              color: mode === "dark" ? "rgba(255,255,255,.8)" : "black",
+              color: "rgba(255,255,255,.8)",
             },
           },
           scales: [
@@ -81,8 +81,8 @@ export default function BarChart() {
                 text: "Time in Hr",
               },
               grid: {
-                color: mode === "dark" ? "rgba(255,255,255,.5)" : "black",
-                borderColor: mode === "dark" ? "rgba(255,255,255,.5)" : "black",
+                color: "rgba(255,255,255,.2)",
+                borderColor: "rgba(255,255,255,.2)",
               },
             },
           ],

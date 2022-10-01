@@ -1,5 +1,6 @@
 .root {
   height: 100vh;
+  background: rgb(33,40,52);
 }
 
 .loginPaper {
@@ -11,6 +12,7 @@
   flex-direction: column;
   padding: 1rem;
   border-radius: 1em !important;
+  background: rgb(15,14,14) !important;
 }
 .textfield {
   width: 25rem;
@@ -23,3 +25,4 @@
 .button {
   width: 20rem !important;
 }
+

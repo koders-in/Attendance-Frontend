@@ -15,13 +15,18 @@ import PunchClockIcon from "@mui/icons-material/PunchClock";
 function DashboardCards() {
   const { user } = useSelector((state) => state);
 
+  const paperProps = {
+    elevation: 10,
+    className: classes.cardPaper,
+  };
+
   return (
     <Stack
       className={classes.cardContainer}
       direction="row"
       justifyContent="space-between"
     >
-      <Paper className={classes.cardPaper}>
+      <Paper {...paperProps}>
         <ListItem>
           <ListItemAvatar>
             <AccountBoxIcon fontSize="large" />
@@ -32,7 +37,7 @@ function DashboardCards() {
           />
         </ListItem>
       </Paper>
-      <Paper className={classes.cardPaper}>
+      <Paper {...paperProps}>
         <ListItem>
           <ListItemAvatar>
             <AssignmentIcon fontSize="large" />
@@ -45,7 +50,7 @@ function DashboardCards() {
           />
         </ListItem>
       </Paper>
-      <Paper className={classes.cardPaper}>
+      <Paper {...paperProps}>
         <ListItem>
           <ListItemAvatar>
             <PunchClockIcon fontSize="large" />
