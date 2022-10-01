@@ -26,7 +26,9 @@ export default function attendanceReducer(state = initialState, action) {
 
     case "SET_USER": {
       const { payload } = action;
-      return { ...state, user: payload, isAuthenticate: true };
+      if (Object.keys(payload).length > 0) {
+        return { ...state, user: payload, isAuthenticate: true };
+      } else return { ...state, user: payload, isAuthenticate: false };
     }
     case "SET_TOTAL_ROWS": {
       const { table } = state;

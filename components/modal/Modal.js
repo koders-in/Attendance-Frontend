@@ -25,7 +25,11 @@ export default function Modal() {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleRedirect} variant="outlined" autoFocus>
+        <Button
+          style={{ width: "100px" }}
+          onClick={handleRedirect}
+          variant="outlined"
+        >
           Log In
         </Button>
       </DialogActions>
