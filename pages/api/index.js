@@ -23,6 +23,7 @@ export default async function handler(req, res) {
           authorization: "Basic " + authKey,
         },
       });
+
       if (status === 200) {
         const { user } = data;
         const allIssues = await getTotalIssues(user.api_key);
@@ -147,6 +148,3 @@ const getSpentTime = async (apiKey, preDate, preDay) => {
     console.log(error);
   }
 };
-
-const f = `03c15fbe0e5fc494cb2a22f5e9b39d54
-`;

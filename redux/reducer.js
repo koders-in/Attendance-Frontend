@@ -1,3 +1,5 @@
+import moment from "moment";
+import utils from "../utils";
 export const initialState = {
   app: {
     mode: "light",
@@ -41,7 +43,36 @@ export default function attendanceReducer(state = initialState, action) {
         },
       };
     }
-
+    case "SET_DATE_FILTER": {
+      const { attendance } = state;
+      const { payload } = action;
+      let tempArray;
+      if (payload === "this-week") {
+        const { currentWeekDate: cd, lastWeekDate: ld } =
+          utils.getThisAndLastWeekDate();
+        tempArray = attendance.filter(
+          ({ date: d }) => moment(d).isAfter(ld) && moment(d).isBefore(cd)
+        );
+        return { ...state, displayTable: tempArray };
+      } else if (payload === "this-month") {
+        const { monthStart: ms, monthEnd: me } = utils.getThisMonthBoundDate();
+        tempArray = attendance.filter(
+          ({ date: d }) => moment(d).isAfter(ms) && moment(d).isBefore(me)
+        );
+        return { ...state, displayTable: tempArray };
+      } else if (payload === "this-year") {
+        const { yearStart: ys } = utils.getThisYearBoundDate();
+        tempArray = attendance.filter(({ date: d }) => moment(d).isAfter(ys));
+        return { ...state, displayTable: tempArray };
+      } else if (payload === "last-month") {
+        const { monthEnd: me, monthStart: ms } = utils.getLastMonthBoundDate();
+        tempArray = attendance.filter(
+          ({ date: d }) => moment(d).isAfter(ms) && moment(d).isBefore(me)
+        );
+        return { ...state, displayTable: tempArray };
+      }
+      return { ...state };
+    }
     case "NEXT_PAGINATION": {
       const {
         table: { offset, totalRows },

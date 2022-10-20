@@ -4,3 +4,14 @@
 }
 
 
+.filterTableCell{ display: flex !important; align-items: center; }
+
+.filterTableCell>svg{
+  margin-left: auto;
+  fill: rgba(255,255,255,0.5) !important;
+}
+
+.filterTableCell>svg:hover{
+  cursor: pointer !important;
+  fill: rgba(255,255,255,1) !important;
+}

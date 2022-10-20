@@ -25,6 +25,11 @@ const inputSX = {
       borderColor: "#00a99d",
     },
   },
+  "& .MuiOutlinedInput-root": {
+    "& > fieldset": {
+      borderColor: "rgba(255,255,255,0.1)",
+    },
+  },
 };
 
 export default function Login() {
@@ -96,7 +101,7 @@ export default function Login() {
             >
               Attendance System
             </Typography>
-            <AppSpacer height={10} />
+            <AppSpacer height={20} />
             <TextField
               sx={inputSX}
               required
@@ -105,7 +110,7 @@ export default function Login() {
               className={classes.textfield}
               onChange={handleChange}
             />
-            <AppSpacer height={10} />
+            <AppSpacer height={20} />
             <TextField
               className={classes.textfield}
               type={!isHide ? "password" : "text"}

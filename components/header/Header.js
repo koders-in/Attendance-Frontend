@@ -51,6 +51,7 @@ export default function Appbar() {
         <IconButton onClick={handleLogout} title="Log Out">
           <LogoutIcon className="white-color" />
         </IconButton>
+        <AppSpacer width={10} />
       </Toolbar>
     </AppBar>
   );

@@ -1,6 +1,7 @@
 import moment from "moment";
 
 const dateFormat = "YYYY/MM/DD HH:mm:ss A";
+const dFormat = "YYYY-MM-DD";
 
 const convertToISOtime = (date, time) => {
   if (date === null && date === undefined) return "Invalid Date";
@@ -47,5 +48,44 @@ const getUserPresenceCount = (attendanceObj) => {
   }
 };
 
-const utils = { convertToISOtime, getTimeDifference, getUserPresenceCount };
+const getThisAndLastWeekDate = () => {
+  const currentWeekDate = moment(new Date(), "YYYY/MM/DD");
+  return {
+    currentWeekDate: currentWeekDate.format(dFormat),
+    lastWeekDate: currentWeekDate.subtract(7, "days").format(dFormat),
+  };
+};
+
+const getThisMonthBoundDate = () => {
+  const month = moment("2022-08-30");
+  return {
+    monthStart: month.startOf("month").format(dFormat),
+    monthEnd: month.endOf("month").format(dFormat),
+  };
+};
+const getLastMonthBoundDate = () => {
+  const month = moment("2022-08-30");
+  return {
+    monthStart: month.subtract(1, "months").startOf("month").format(dFormat),
+    monthEnd: month.endOf("month").format(dFormat),
+  };
+};
+const getThisYearBoundDate = () => {
+  const year = moment(new Date());
+
+  return {
+    yearStart: year.startOf("year").format(dFormat),
+    yearEnd: year.endOf("year").format(dFormat),
+  };
+};
+
+const utils = {
+  convertToISOtime,
+  getTimeDifference,
+  getUserPresenceCount,
+  getThisAndLastWeekDate,
+  getThisMonthBoundDate,
+  getThisYearBoundDate,
+  getLastMonthBoundDate,
+};
 export default utils;
