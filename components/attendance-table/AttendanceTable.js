@@ -33,7 +33,6 @@ function AttendanceTable() {
 
   const handleSelectChange = (e) => {
     const { value } = e.target;
-
     if (FilterByDateOptions.map((d) => d.key).includes(value)) {
       dispatch({ type: "SET_DATE_FILTER", payload: value });
     }

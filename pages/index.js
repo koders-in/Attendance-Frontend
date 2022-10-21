@@ -30,6 +30,11 @@ const inputSX = {
       borderColor: "rgba(255,255,255,0.1)",
     },
   },
+  "& .MuiOutlinedInput-root:hover": {
+    "& > fieldset": {
+      borderColor: "#00a99d",
+    },
+  },
 };
 
 export default function Login() {
