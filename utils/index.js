@@ -9,7 +9,7 @@ const convertToISOtime = (date, time) => {
   if (typeof date === "string" && time !== null) {
     date = date.replaceAll("-", "/");
     const ts = moment.utc(`${date} ${time}`, dateFormat).toDate();
-    return moment(ts).format("hh:mm:ss A");
+    return moment(ts).format("hh:mm A");
   } else return "Invalid Time";
 };
 
@@ -49,7 +49,8 @@ const getUserPresenceCount = (attendanceObj) => {
 };
 
 const getThisAndLastWeekDate = () => {
-  const currentWeekDate = moment(new Date(), "YYYY/MM/DD");
+  const currentWeekDate =
+    moment("2022-08-30") || moment(new Date(), "YYYY/MM/DD");
   return {
     currentWeekDate: currentWeekDate.format(dFormat),
     lastWeekDate: currentWeekDate.subtract(7, "days").format(dFormat),

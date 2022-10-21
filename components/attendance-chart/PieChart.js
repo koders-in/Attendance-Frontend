@@ -43,7 +43,7 @@ function AttendancePieChart() {
       <PieChart
         data={[
           {
-            title: "Persent",
+            title: "Present",
             value: data.filter((d) => d?.tag === "present").length,
             color: "#3bff6c",
           },
@@ -53,7 +53,7 @@ function AttendancePieChart() {
             color: "#fc2d2d",
           },
           {
-            title: "Half Leave",
+            title: "Half Day",
             value: data.filter((d) => d?.tag === "half").length,
             color: "#ebe300",
           },

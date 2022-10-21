@@ -10,12 +10,15 @@ export const initialState = {
     page: 0,
     offset: 0,
     totalRows: 0,
+
     fetchDataFromServer: true,
   },
   displayTable: [],
   isLoading: false,
   isAuthenticate: false,
-  isDisplayTableFilter: false,
+  isDisplayTablePagination: false,
+  currentFilterUseByUser: "this-week",
+  isFetchedAllEntry: false,
 };
 export default function attendanceReducer(state = initialState, action) {
   switch (action.type) {
@@ -45,9 +48,10 @@ export default function attendanceReducer(state = initialState, action) {
       };
     }
     case "SET_DATE_FILTER": {
-      const { attendance } = state;
+      const { attendance, table } = state;
       const { payload } = action;
       let tempArray;
+
       if (payload === "this-week") {
         const { currentWeekDate: cd, lastWeekDate: ld } =
           utils.getThisAndLastWeekDate();
@@ -67,18 +71,44 @@ export default function attendanceReducer(state = initialState, action) {
         tempArray = attendance.filter(
           ({ date: d }) => moment(d).isAfter(ms) && moment(d).isBefore(me)
         );
+      } else {
+        // /this condition act as fallback
+        tempArray = attendance;
       }
+
       return {
         ...state,
         displayTable: tempArray,
-        isDisplayTableFilter: tempArray.length > 0 ? true : false,
+        isDisplayTablePagination: payload === "this-week",
+        currentFilterUseByUser: payload,
+        table: { ...table },
       };
     }
     case "NEXT_PAGINATION": {
       const {
         table: { offset, totalRows },
+        isFetchedAllEntry,
+        attendance,
       } = state;
       const { payload } = action;
+      if (isFetchedAllEntry) {
+        console.log("Rendering cahed table data");
+        const arr = [...attendance].slice(
+          (payload - 1) * 10,
+          (payload - 1) * 10 + 10
+        );
+        return {
+          ...state,
+          table: {
+            totalRows,
+            page: payload,
+            offset: offset + 10,
+            fetchDataFromServer: false,
+          },
+          isLoading: false,
+          displayTable: [...arr],
+        };
+      }
       return {
         ...state,
         table: {
@@ -111,7 +141,10 @@ export default function attendanceReducer(state = initialState, action) {
     }
 
     case "SET_ATTENDANCE": {
-      const { attendance } = state;
+      const {
+        attendance,
+        table: { totalRows, page },
+      } = state;
       const { payload } = action;
       const objAttendance = {};
       const tempArr = [];
@@ -127,6 +160,7 @@ export default function attendanceReducer(state = initialState, action) {
         attendance: [...tempArr],
         isLoading: false,
         displayTable: [...tempArr],
+        isFetchedAllEntry: page + 1 >= Math.ceil(totalRows / 10),
       };
     }
 
@@ -148,3 +182,5 @@ export default function attendanceReducer(state = initialState, action) {
       return { ...state };
   }
 }
+
+const whiteListFilter = [];

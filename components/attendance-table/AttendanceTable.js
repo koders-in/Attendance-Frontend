@@ -5,10 +5,7 @@ import {
   TableContainer,
   TablePagination,
   MenuItem,
-  Typography,
   Select,
-  Backdrop,
-  Modal,
 } from "@mui/material";
 import React from "react";
 import classes from "./Table.module.css";
@@ -17,10 +14,11 @@ import AttendanceTableRow from "./AttendanceTableRow";
 import { useDispatch, useSelector } from "react-redux";
 
 function AttendanceTable() {
-  const [selectedFilter, SetSelectedFilter] = React.useState("this-week");
   const dispatch = useDispatch();
   const {
     displayTable,
+    isDisplayTablePagination,
+    currentFilterUseByUser,
     table: { totalRows, page: prevPage },
   } = useSelector((state) => state);
 
@@ -35,7 +33,7 @@ function AttendanceTable() {
 
   const handleSelectChange = (e) => {
     const { value } = e.target;
-    SetSelectedFilter(value);
+
     if (FilterByDateOptions.map((d) => d.key).includes(value)) {
       dispatch({ type: "SET_DATE_FILTER", payload: value });
     }
@@ -53,7 +51,7 @@ function AttendanceTable() {
                 {label}
                 <Select
                   onChange={handleSelectChange}
-                  value={selectedFilter}
+                  value={currentFilterUseByUser || "this-week"}
                   className="date-filter-option"
                 >
                   {FilterByDateOptions.map(({ label, key }) => (
@@ -77,16 +75,19 @@ function AttendanceTable() {
         </Table>
         <DataLoadingSpinner />
       </TableContainer>
-      {totalRows !== undefined && prevPage >= 0 && (
-        <TablePagination
-          rowsPerPageOptions={[10]}
-          component="div"
-          count={totalRows || 0}
-          rowsPerPage={10}
-          page={prevPage}
-          onPageChange={handleChangePage}
-        />
-      )}
+      {isDisplayTablePagination
+        ? null
+        : totalRows !== undefined &&
+          prevPage >= 0 && (
+            <TablePagination
+              rowsPerPageOptions={[10]}
+              component="div"
+              count={totalRows || 0}
+              rowsPerPage={10}
+              page={prevPage}
+              onPageChange={handleChangePage}
+            />
+          )}
     </React.Fragment>
   );
 }
