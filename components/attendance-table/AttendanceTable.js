@@ -15,10 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 function AttendanceTable() {
   const dispatch = useDispatch();
+
   const {
     displayTable,
     isDisplayTablePagination,
-    currentFilterUseByUser,
+    dateFilteredBy,
     table: { totalRows, page: prevPage },
   } = useSelector((state) => state);
 
@@ -31,7 +32,7 @@ function AttendanceTable() {
     }
   };
 
-  const handleSelectChange = (e) => {
+  const handleSelectChange = async (e) => {
     const { value } = e.target;
     if (FilterByDateOptions.map((d) => d.key).includes(value)) {
       dispatch({ type: "SET_DATE_FILTER", payload: value });
@@ -49,12 +50,19 @@ function AttendanceTable() {
               <TableCell className={classes.filterTableCell} key={id}>
                 {label}
                 <Select
+                  placeholder="Filter by date"
                   onChange={handleSelectChange}
-                  value={currentFilterUseByUser || "this-week"}
+                  defaultValue="sdfsdfsdf"
+                  value={dateFilteredBy}
                   className="date-filter-option"
                 >
                   {FilterByDateOptions.map(({ label, key }) => (
-                    <MenuItem value={key} key={key}>
+                    <MenuItem
+                      disabled={key === "default"}
+                      value={key}
+                      key={key}
+                      divider
+                    >
                       {label}
                     </MenuItem>
                   ))}
@@ -121,6 +129,10 @@ const headCells = [
 ];
 
 const FilterByDateOptions = [
+  {
+    label: "Filter by date",
+    key: "default",
+  },
   {
     label: "This week",
     key: "this-week",

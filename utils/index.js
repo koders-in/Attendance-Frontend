@@ -48,12 +48,12 @@ const getUserPresenceCount = (attendanceObj) => {
   }
 };
 
-const getThisAndLastWeekDate = () => {
+const getThisWeekBoundDate = () => {
   const currentWeekDate =
     moment("2022-08-30") || moment(new Date(), "YYYY/MM/DD");
   return {
-    currentWeekDate: currentWeekDate.format(dFormat),
-    lastWeekDate: currentWeekDate.subtract(7, "days").format(dFormat),
+    weekEnd: currentWeekDate.format(dFormat),
+    weekStart: currentWeekDate.subtract(1, "week").format(dFormat),
   };
 };
 
@@ -62,6 +62,7 @@ const getThisMonthBoundDate = () => {
   return {
     monthStart: month.startOf("month").format(dFormat),
     monthEnd: month.endOf("month").format(dFormat),
+    monthDays: month.daysInMonth(),
   };
 };
 const getLastMonthBoundDate = () => {
@@ -69,6 +70,7 @@ const getLastMonthBoundDate = () => {
   return {
     monthStart: month.subtract(1, "months").startOf("month").format(dFormat),
     monthEnd: month.endOf("month").format(dFormat),
+    monthDays: month.daysInMonth(),
   };
 };
 const getThisYearBoundDate = () => {
@@ -84,7 +86,7 @@ const utils = {
   convertToISOtime,
   getTimeDifference,
   getUserPresenceCount,
-  getThisAndLastWeekDate,
+  getThisWeekBoundDate,
   getThisMonthBoundDate,
   getThisYearBoundDate,
   getLastMonthBoundDate,

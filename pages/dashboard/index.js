@@ -21,10 +21,12 @@ import Head from "next/head";
 import classes from "../../styles/Dashboard.module.css";
 import { useAttendance } from "../../hooks/useAttendance";
 import { useToatalAttendanceCount } from "../../hooks/useTotalCount";
+import { useFilteredAttendanceHook } from "../../hooks/useFilterAttendance";
 
 function index() {
   useToatalAttendanceCount();
-  useAttendance();
+  // useAttendance();
+  useFilteredAttendanceHook();
 
   const {
     app: { mode },

@@ -6,7 +6,7 @@ const warningMsg =
 export const useAttendance = () => {
   const dispatch = useDispatch();
   const {
-    table: { fetchDataFromServer, offset },
+    table: { fetchDataFromServer, offset, isFilterQueryInUse },
     user,
     isFetchedAllEntry,
   } = useSelector((state) => state);
@@ -19,6 +19,7 @@ export const useAttendance = () => {
       }
     };
     if (Object.keys(user).length > 0) {
+      if (isFilterQueryInUse) return console.log("Filter query in use!!!");
       if (!isFetchedAllEntry) {
         if (fetchDataFromServer) {
           const { profile } = user;

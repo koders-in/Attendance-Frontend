@@ -10,6 +10,7 @@ const reduxStore = () => {
       key: "koders-attendance",
       version: 1,
       storage,
+      blacklist: ["isFilterQueryInUse", "dateFilteredBy"],
     };
     const persistedReducer = persistReducer(persistConfig, reducer);
     const store = createStore(persistedReducer);
