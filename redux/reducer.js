@@ -15,6 +15,7 @@ export const initialState = {
   displayTable: [],
   isLoading: false,
   isAuthenticate: false,
+  isDisplayTableFilter: false,
 };
 export default function attendanceReducer(state = initialState, action) {
   switch (action.type) {
@@ -53,25 +54,25 @@ export default function attendanceReducer(state = initialState, action) {
         tempArray = attendance.filter(
           ({ date: d }) => moment(d).isAfter(ld) && moment(d).isBefore(cd)
         );
-        return { ...state, displayTable: tempArray };
       } else if (payload === "this-month") {
         const { monthStart: ms, monthEnd: me } = utils.getThisMonthBoundDate();
         tempArray = attendance.filter(
           ({ date: d }) => moment(d).isAfter(ms) && moment(d).isBefore(me)
         );
-        return { ...state, displayTable: tempArray };
       } else if (payload === "this-year") {
         const { yearStart: ys } = utils.getThisYearBoundDate();
         tempArray = attendance.filter(({ date: d }) => moment(d).isAfter(ys));
-        return { ...state, displayTable: tempArray };
       } else if (payload === "last-month") {
         const { monthEnd: me, monthStart: ms } = utils.getLastMonthBoundDate();
         tempArray = attendance.filter(
           ({ date: d }) => moment(d).isAfter(ms) && moment(d).isBefore(me)
         );
-        return { ...state, displayTable: tempArray };
       }
-      return { ...state };
+      return {
+        ...state,
+        displayTable: tempArray,
+        isDisplayTableFilter: tempArray.length > 0 ? true : false,
+      };
     }
     case "NEXT_PAGINATION": {
       const {

@@ -4,22 +4,20 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
-  Tooltip,
-  Toolbar,
-  Menu,
   MenuItem,
   Typography,
+  Select,
+  Backdrop,
+  Modal,
 } from "@mui/material";
 import React from "react";
 import classes from "./Table.module.css";
 import DataLoadingSpinner from "../spinner/Spinner";
 import AttendanceTableRow from "./AttendanceTableRow";
 import { useDispatch, useSelector } from "react-redux";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { Stack } from "@mui/system";
 
 function AttendanceTable() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedFilter, SetSelectedFilter] = React.useState("this-week");
   const dispatch = useDispatch();
   const {
     displayTable,
@@ -35,15 +33,12 @@ function AttendanceTable() {
     }
   };
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (key) => {
-    if (FilterByDateOptions.map((d) => d.key).includes(key)) {
-      dispatch({ type: "SET_DATE_FILTER", payload: key });
+  const handleSelectChange = (e) => {
+    const { value } = e.target;
+    SetSelectedFilter(value);
+    if (FilterByDateOptions.map((d) => d.key).includes(value)) {
+      dispatch({ type: "SET_DATE_FILTER", payload: value });
     }
-    setAnchorEl(null);
   };
 
   return (
@@ -56,48 +51,29 @@ function AttendanceTable() {
             ) : (
               <TableCell className={classes.filterTableCell} key={id}>
                 {label}
-                <Toolbar>
-                  <Tooltip onClick={handleMenu} title="Filter by date">
-                    <FilterListIcon className="white-color" />
-                  </Tooltip>
-                </Toolbar>
-                <Menu
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorEl)}
-                  onClose={() => handleClose("no-key")}
+                <Select
+                  onChange={handleSelectChange}
+                  value={selectedFilter}
+                  className="date-filter-option"
                 >
                   {FilterByDateOptions.map(({ label, key }) => (
-                    <MenuItem onClick={() => handleClose(key)}>
+                    <MenuItem value={key} key={key}>
                       {label}
                     </MenuItem>
                   ))}
-                </Menu>
+                </Select>
               </TableCell>
             );
           })}
-          {displayTable?.length > 0 ? (
-            <TableBody>
-              {displayTable?.map((row, i) => (
-                <AttendanceTableRow
-                  row={row}
-                  key={row?.id || `attendance-table-row-${i}`}
-                />
-              ))}
-            </TableBody>
-          ) : (
-            <Stack flex={10}>
-              <Typography>No entry</Typography>
-            </Stack>
-          )}
+
+          <TableBody>
+            {displayTable?.map((row, i) => (
+              <AttendanceTableRow
+                row={row}
+                key={row?.id || `attendance-table-row-${i}`}
+              />
+            ))}
+          </TableBody>
         </Table>
         <DataLoadingSpinner />
       </TableContainer>
@@ -146,19 +122,19 @@ const headCells = [
 
 const FilterByDateOptions = [
   {
-    label: "this week",
+    label: "This week",
     key: "this-week",
   },
   {
-    label: "this month",
+    label: "This month",
     key: "this-month",
   },
   {
-    label: "last month",
+    label: "Last month",
     key: "last-month",
   },
   {
-    label: "this year",
+    label: "This year",
     key: "this-year",
   },
 ];
