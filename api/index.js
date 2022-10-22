@@ -25,6 +25,20 @@ const getTotalAttendanceCount = async (userID = 17) => {
   }
 };
 
+const getFilterTotalAttendanceCount = async (userID = 17, dateQuery) => {
+  try {
+    const { status, data } = await gqlClient.post("/", {
+      query: GQL.filterAttendanceCountQuery(userID, dateQuery),
+      variables: {},
+    });
+    return status === 200
+      ? data?.data?.attendance_aggregate?.aggregate?.count
+      : null;
+  } catch (e) {
+    console.log("Total Attendance count error", e.message);
+  }
+};
+
 const geMytAttendance = async (offset = 0, userID = 17) => {
   try {
     const { status, data } = await gqlClient.post("/", {
@@ -59,5 +73,6 @@ const API = {
   logInUser,
   getTotalAttendanceCount,
   fetchFilteredAttendance,
+  getFilterTotalAttendanceCount,
 };
 export default API;

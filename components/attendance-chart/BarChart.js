@@ -10,9 +10,10 @@ import {
   Legend,
 } from "chart.js";
 import utils from "../../utils";
-import classes from "./Chart.module.css";
 import { Bar } from "react-chartjs-2";
+import classes from "./Chart.module.css";
 import { useSelector } from "react-redux";
+import { FilterByDateOptions } from "../../constant";
 
 ChartJS.register(
   CategoryScale,
@@ -24,11 +25,8 @@ ChartJS.register(
 );
 
 export default function BarChart() {
-  const {
-    attendance,
-    app: { mode },
-  } = useSelector((state) => state);
-
+  const { attendance, dateFilteredBy } = useSelector((state) => state);
+  const title = FilterByDateOptions.filter((d) => d.key === dateFilteredBy)[0];
   // getting last 7 days data
   const xAxis = attendance?.slice(0, 7).map((d) => {
     return utils.getTimeDifference(d?.date, d?.clock_in, d?.clock_out);
@@ -36,7 +34,7 @@ export default function BarChart() {
   const yAxis = attendance?.slice(0, 7).map((d) => {
     return d?.date;
   });
-
+  console.log(title);
   const data = {
     labels: yAxis,
     datasets: [
@@ -69,7 +67,10 @@ export default function BarChart() {
             },
             title: {
               display: true,
-              text: "Last Seven Day's Statistics",
+              text:
+                title["key"] === "default"
+                  ? "Last Seven Day's Statistics"
+                  : `${title["label"]} Statistics`,
               color: "rgba(255,255,255,.8)",
             },
           },

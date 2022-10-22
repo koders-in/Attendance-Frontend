@@ -1,15 +1,13 @@
 const whiltelistPagination = ["this-month", "last-month", "this-week"];
 
 export const initialState = {
-  app: {
-    mode: "light",
-  },
   user: {},
   attendance: [],
   table: {
     page: 0,
     offset: 0,
     totalRows: 0,
+    rowPerPage: 10,
     fetchDataFromServer: true,
   },
   displayTable: [],
@@ -22,14 +20,6 @@ export const initialState = {
 };
 export default function attendanceReducer(state = initialState, action) {
   switch (action.type) {
-    case "SET_MODE": {
-      const { app } = state;
-      return {
-        ...state,
-        app: { ...app, mode: app.mode === "light" ? "dark" : "light" },
-      };
-    }
-
     case "SET_USER": {
       const { payload } = action;
       if (Object.keys(payload).length > 0) {
@@ -55,7 +45,13 @@ export default function attendanceReducer(state = initialState, action) {
         ...state,
         dateFilteredBy: payload,
         isDisplayTablePagination: whiltelistPagination.includes(payload),
-        table: { ...table, fetchDataFromServer: true },
+        table: {
+          ...table,
+          fetchDataFromServer: true,
+          page: 0,
+          offset: 0,
+        },
+        attendance: [],
       };
     }
 
@@ -117,9 +113,9 @@ export default function attendanceReducer(state = initialState, action) {
 
     case "FILTER_ATTENDANCE": {
       const { payload } = action;
-      const { displayTable } = state;
       const objAttendance = {};
-      const combinerArray = [...payload];
+      const { attendance } = state;
+      const combinerArray = [...attendance, ...payload];
       const tempArr = [];
       for (const item of combinerArray) {
         objAttendance[item.date] = { ...item };
@@ -127,12 +123,12 @@ export default function attendanceReducer(state = initialState, action) {
       for (const key in objAttendance) {
         tempArr.push({ ...objAttendance[key] });
       }
-      console.log(tempArr);
+
       return {
         ...state,
         isLoading: false,
         displayTable: [...tempArr],
-        // isFetchedAllEntry: page + 1 >= Math.ceil(totalRows / 10),
+        attendance: [...tempArr],
       };
     }
 
@@ -178,5 +174,3 @@ export default function attendanceReducer(state = initialState, action) {
       return { ...state };
   }
 }
-
-const whiteListFilter = [];

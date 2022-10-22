@@ -10,13 +10,9 @@ const attendanceQuery = (userID, offset) => `
       }
     `;
 
-const attendanceCountQuery = (userID) => `query  MyQuery  @cached{
-  attendance_aggregate(where:{ user_id : {_eq : ${userID} } })  {
-               aggregate {
-                       count
-                      }
-           }
-    }
+const attendanceCountQuery = (
+  userID
+) => `query  MyQuery  @cached{ attendance_aggregate(where:{ user_id : {_eq : ${userID} } }) {aggregate {count}}}
  `;
 
 const attendanceFilterQuery = (userID, offset, limit, dateFilterQuery) => {
@@ -45,5 +41,16 @@ const attendanceFilterQuery = (userID, offset, limit, dateFilterQuery) => {
   }
 };
 
-const GQL = { attendanceCountQuery, attendanceQuery, attendanceFilterQuery };
+const filterAttendanceCountQuery = (
+  userID,
+  dateQuery
+) => `query  MyQuery  @cached{attendance_aggregate(where:{ user_id : {_eq : ${userID},date: ${dateQuery} }){aggregate {count}}}
+ `;
+
+const GQL = {
+  attendanceCountQuery,
+  attendanceQuery,
+  attendanceFilterQuery,
+  filterAttendanceCountQuery,
+};
 export default GQL;

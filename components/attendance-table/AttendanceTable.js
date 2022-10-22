@@ -10,6 +10,7 @@ import {
 import React from "react";
 import classes from "./Table.module.css";
 import DataLoadingSpinner from "../spinner/Spinner";
+import { FilterByDateOptions } from "../../constant";
 import AttendanceTableRow from "./AttendanceTableRow";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -125,28 +126,5 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Work time",
-  },
-];
-
-const FilterByDateOptions = [
-  {
-    label: "Filter by date",
-    key: "default",
-  },
-  {
-    label: "This week",
-    key: "this-week",
-  },
-  {
-    label: "This month",
-    key: "this-month",
-  },
-  {
-    label: "Last month",
-    key: "last-month",
-  },
-  {
-    label: "This year",
-    key: "this-year",
   },
 ];

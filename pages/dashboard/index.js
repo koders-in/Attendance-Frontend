@@ -19,31 +19,25 @@ import {
 import { useSelector } from "react-redux";
 import Head from "next/head";
 import classes from "../../styles/Dashboard.module.css";
-import { useAttendance } from "../../hooks/useAttendance";
 import { useToatalAttendanceCount } from "../../hooks/useTotalCount";
 import { useFilteredAttendanceHook } from "../../hooks/useFilterAttendance";
 
 function index() {
   useToatalAttendanceCount();
-  // useAttendance();
   useFilteredAttendanceHook();
 
-  const {
-    app: { mode },
-    isAuthenticate,
-  } = useSelector((state) => state);
+  const { isAuthenticate } = useSelector((state) => state);
 
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
-          mode,
           primary: {
             main: "#00a99d",
           },
         },
       }),
-    [mode]
+    []
   );
 
   return !Boolean(isAuthenticate) ? (
